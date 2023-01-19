@@ -174,5 +174,14 @@ const installCodeFileName = "설치_코드.html";
         response.shopNo
       );
     });
+
+    // pages 초기화
+    for (let key in constants) {
+      fs.writeFile(constants[key]["htmlPath"], "", (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+    }
   }
 })();
