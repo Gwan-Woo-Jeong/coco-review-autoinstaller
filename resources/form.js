@@ -1,1 +1,3 @@
-console.log("리뷰 작성 폼 시작");
+export const form = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("form");
+};

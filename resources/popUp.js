@@ -1,1 +1,3 @@
-console.log("리뷰 작성 팝업 시작");
+export const popUp = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("popUp");
+};

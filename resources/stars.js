@@ -1,1 +1,3 @@
-console.log("리뷰 별점 표시 시작");
+export const stars = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("stars");
+};

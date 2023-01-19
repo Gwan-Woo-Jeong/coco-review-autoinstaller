@@ -1,1 +1,3 @@
-console.log("리뷰 수 시작");
+export const count = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("count");
+};

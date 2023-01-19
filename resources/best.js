@@ -1,1 +1,3 @@
-console.log("베스트리뷰 시작");
+export const best = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("best");
+};

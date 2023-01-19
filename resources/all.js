@@ -1,1 +1,3 @@
-console.log("전체리뷰 시작");
+export const all = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("all");
+};

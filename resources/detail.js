@@ -1,1 +1,3 @@
-console.log("리뷰 상세 시작");
+export const detail = async (buildDir, dom, reviewType, serviceKey, shopNo) => {
+  console.log("detail");
+};
