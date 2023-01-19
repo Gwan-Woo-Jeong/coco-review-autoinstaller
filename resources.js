@@ -5,6 +5,7 @@ import { count } from "./resources/count.js";
 import { detail } from "./resources/detail.js";
 import { stars } from "./resources/stars.js";
 import { popUp } from "./resources/popUp.js";
+import { layout } from "./resources/layout.js";
 
 export default {
   form,
@@ -14,4 +15,5 @@ export default {
   detail,
   stars,
   popUp,
+  layout,
 };

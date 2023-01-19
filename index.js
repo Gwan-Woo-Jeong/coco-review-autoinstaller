@@ -69,6 +69,24 @@ const installCodeFileName = "설치_코드.html";
       instructions: false,
       min: 1,
     },
+    {
+      type: (prev) => (prev.includes("stars") ? "multiselect" : null),
+      name: "layouts",
+      message: "별점 위젯을 설치할 레이아웃을 선택해주세요",
+      choices: [
+        {
+          title: "공통 레이아웃",
+          value: "common",
+        },
+        {
+          title: "메인 레이아웃",
+          value: "main",
+        },
+      ],
+      hint: "- 스페이스바로 선택한 후, 엔터로 제출합니다",
+      instructions: false,
+      min: 1,
+    },
   ]);
 
   if (response.serviceKey && response.shopNo) {
@@ -102,6 +120,33 @@ const installCodeFileName = "설치_코드.html";
       if (err) throw err;
     });
 
+    if (response.layouts) {
+      fs.mkdirSync(`./${currentBuildDir}/origin/layouts`, {
+        recursive: true,
+      });
+      fs.mkdirSync(`./${currentBuildDir}/new/layouts`, { recursive: true });
+      response.layouts.forEach(async (layout) => {
+        const layoutType = constants[layout];
+        fs.copyFile(
+          layoutType.htmlPath,
+          `${`${__dirname}/build/${nowDate}/origin/layouts`}/${
+            layoutType.html
+          }`,
+          (err) => {
+            if (err) throw err;
+          }
+        );
+        const layoutDom = await JSDOM.fromFile(layoutType.htmlPath);
+        resources["layout"](
+          `${currentBuildDir}/layouts`,
+          layoutDom,
+          layout,
+          response.serviceKey,
+          response.shopNo
+        );
+      });
+    }
+
     response.reviews.forEach(async (review) => {
       const reviewType = constants[review];
       // origin 복사
@@ -120,10 +165,10 @@ const installCodeFileName = "설치_코드.html";
       );
 
       // 자동 설치 실행
-      const dom = await JSDOM.fromFile(reviewType.htmlPath);
+      const reviewDom = await JSDOM.fromFile(reviewType.htmlPath);
       resources[review](
         currentBuildDir,
-        dom,
+        reviewDom,
         review,
         response.serviceKey,
         response.shopNo

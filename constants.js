@@ -1,5 +1,5 @@
 import { dirname } from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -52,5 +52,19 @@ export default {
     htmlPath: `${__dirname}/pages/리뷰_작성_팝업.html`,
     js: "popUp.js",
     jsPath: `${__dirname}/resources/popUp.js`,
+  },
+  common: {
+    type: "common",
+    html: "공통_레이아웃.html",
+    htmlPath: `${__dirname}/pages/layouts/공통_레이아웃.html`,
+    js: "layout.js",
+    jsPath: `${__dirname}/resources/layout.js`,
+  },
+  main: {
+    type: "main",
+    html: "메인_레이아웃.html",
+    htmlPath: `${__dirname}/pages/layouts/메인_레이아웃.html`,
+    js: "layout.js",
+    jsPath: `${__dirname}/resources/layouts.js`,
   },
 };
