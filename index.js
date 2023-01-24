@@ -125,8 +125,9 @@ const installCodeFileName = "설치_코드.html";
         recursive: true,
       });
       fs.mkdirSync(`./${currentBuildDir}/new/layouts`, { recursive: true });
-      response.layouts.forEach(async (layout) => {
+      response.layouts.forEach((layout) => {
         const layoutType = constants[layout];
+        // orgin 복사
         fs.copyFile(
           layoutType.htmlPath,
           `${`${__dirname}/build/${nowDate}/origin/layouts`}/${
@@ -136,18 +137,24 @@ const installCodeFileName = "설치_코드.html";
             if (err) throw err;
           }
         );
-        const layoutDom = await JSDOM.fromFile(layoutType.htmlPath);
+
+        // 자동 설치 실행
+        const layoutDom = new JSDOM(
+          fs.readFileSync(layoutType.htmlPath).toString()
+        );
         resources["layout"](
-          `${currentBuildDir}/layouts`,
+          `${currentBuildDir}/new/layouts/${layoutType.html}`,
           layoutDom,
-          layout,
-          response.serviceKey,
-          response.shopNo
+          generateInstallCode(
+            constants.stars.type,
+            response.serviceKey,
+            response.shopNo
+          )
         );
       });
     }
 
-    response.reviews.forEach(async (review) => {
+    const promises = response.reviews.map((review) => {
       const reviewType = constants[review];
       // origin 복사
       fs.copyFile(
@@ -165,15 +172,17 @@ const installCodeFileName = "설치_코드.html";
       );
 
       // 자동 설치 실행
-      const reviewDom = await JSDOM.fromFile(reviewType.htmlPath);
+      const reviewDom = new JSDOM(
+        fs.readFileSync(reviewType.htmlPath).toString()
+      );
       resources[review](
-        currentBuildDir,
+        `${currentBuildDir}/new/${reviewType.html}`,
         reviewDom,
-        review,
-        response.serviceKey,
-        response.shopNo
+        generateInstallCode(review, response.serviceKey, response.shopNo)
       );
     });
+
+    await Promise.all(promises);
 
     // pages 초기화
     for (let key in constants) {
