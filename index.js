@@ -49,8 +49,8 @@ const installCodeFileName = "설치_코드.html";
           value: "best",
         },
         {
-          title: "상품 상세 리뷰",
-          value: "detail",
+          title: "전체 리뷰 + 베스트 리뷰",
+          value: "allBest",
         },
         {
           title: "리뷰 수 표시",
@@ -126,7 +126,7 @@ const installCodeFileName = "설치_코드.html";
       });
       fs.mkdirSync(`./${currentBuildDir}/new/layouts`, { recursive: true });
       response.layouts.forEach((layout) => {
-        const layoutType = constants[layout];
+        const layoutType = constants["layouts"][layout];
         // orgin 복사
         fs.copyFile(
           layoutType.htmlPath,
@@ -146,7 +146,7 @@ const installCodeFileName = "설치_코드.html";
           `${currentBuildDir}/new/layouts/${layoutType.html}`,
           layoutDom,
           generateInstallCode(
-            constants.stars.type,
+            constants.reviews.stars.type,
             response.serviceKey,
             response.shopNo
           )
@@ -155,7 +155,7 @@ const installCodeFileName = "설치_코드.html";
     }
 
     const promises = response.reviews.map((review) => {
-      const reviewType = constants[review];
+      const reviewType = constants["reviews"][review];
       // origin 복사
       fs.copyFile(
         reviewType.htmlPath,
@@ -185,12 +185,14 @@ const installCodeFileName = "설치_코드.html";
     await Promise.all(promises);
 
     // pages 초기화
-    for (let key in constants) {
-      fs.writeFile(constants[key]["htmlPath"], "", (err) => {
-        if (err) {
-          throw err;
-        }
-      });
+    for (let type in constants) {
+      for (let key in constants[type]) {
+        fs.writeFile(constants[type][key]["htmlPath"], "", (err) => {
+          if (err) {
+            throw err;
+          }
+        });
+      }
     }
   }
 })();
