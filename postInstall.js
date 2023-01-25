@@ -1,16 +1,5 @@
 import fs from "fs";
-
-const reviewTypes = [
-  "리뷰_작성_폼",
-  "전체_리뷰",
-  "전체_리뷰+베스트_리뷰",
-  "상품_상세_리뷰",
-  "상품_목록_별점",
-  "베스트_리뷰",
-  "리뷰_작성_팝업",
-];
-
-const layoutTypes = ["메인_레이아웃", "공통_레이아웃"];
+import constants from "./constants.js";
 
 const pageDir = "./pages";
 const layoutDir = `${pageDir}/layouts`;
@@ -23,18 +12,26 @@ if (!fs.existsSync("memo.txt")) {
 if (!fs.existsSync(pageDir)) {
   fs.promises
     .mkdir(layoutDir, { recursive: true })
-    .then(() =>
-      reviewTypes.forEach((review) =>
-        fs.writeFile(`${pageDir}/${review}.html`, "", (err) => {
-          if (err) throw err;
-        })
-      )
-    )
     .then(() => {
-      layoutTypes.forEach((layout) =>
-        fs.writeFile(`${layoutDir}/${layout}.html`, "", (err) => {
-          if (err) throw err;
-        })
-      );
+      for (let review in constants["reviews"]) {
+        fs.writeFile(
+          `${pageDir}/${constants["reviews"][review]["html"]}`,
+          "",
+          (err) => {
+            if (err) throw err;
+          }
+        );
+      }
+    })
+    .then(() => {
+      for (let layout in constants["layouts"]) {
+        fs.writeFile(
+          `${pageDir}/layouts/${constants["layouts"][layout]["html"]}`,
+          "",
+          (err) => {
+            if (err) throw err;
+          }
+        );
+      }
     });
 }
