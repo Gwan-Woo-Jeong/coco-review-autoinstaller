@@ -53,8 +53,8 @@ const installCodeFileName = "설치_코드.html";
           value: "allBest",
         },
         {
-          title: "리뷰 수 표시",
-          value: "count",
+          title: "상품 상세 리뷰",
+          value: "detail",
         },
         {
           title: "상품 목록 별점",
@@ -185,14 +185,14 @@ const installCodeFileName = "설치_코드.html";
     await Promise.all(promises);
 
     // pages 초기화
-    for (let type in constants) {
-      for (let key in constants[type]) {
-        fs.writeFile(constants[type][key]["htmlPath"], "", (err) => {
-          if (err) {
-            throw err;
-          }
-        });
-      }
-    }
+    // for (let type in constants) {
+    //   for (let key in constants[type]) {
+    //     fs.writeFile(constants[type][key]["htmlPath"], "", (err) => {
+    //       if (err) {
+    //         throw err;
+    //       }
+    //     });
+    //   }
+    // }
   }
 })();

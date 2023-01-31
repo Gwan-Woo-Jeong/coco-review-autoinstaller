@@ -163,23 +163,6 @@ export const generateInstallCode = (
           <script id="cocoList" type="text/javascript" src="https://co-co.co.kr/dist/v3-list-js.js?serviceKey=${serviceKey}&shopNo=${shopNo}"></script>
       </div>
       <!-- * end -->
-`;
-    }
-
-    return {
-      script: null,
-      custom: `
-    <div>
-        <iframe id="cocoListIframe" style="width:100%; height: 100%;" frameBorder="0"></iframe>
-        <script id="cocoList" type="text/javascript" src="https://co-co.co.kr/dist/v3-list-js.js?serviceKey=${serviceKey}&shopNo=${shopNo}"></script>
-    </div>
-`,
-    };
-  }
-
-  if (reviewType === constants.reviews.count.type) {
-    if (isRefrence) {
-      return `
 
       <!--
       [리뷰 수 표시]
@@ -190,12 +173,25 @@ export const generateInstallCode = (
 
       <!-- * 코코리뷰 [리뷰 수 표시] : 스크립트 코드 start --><script type="text/javascript" id="cocoReviewCount" data-service="coco" src="https://co-co.co.kr/dist/v3-review-count-js.js?serviceKey=${serviceKey}&shopNo=${shopNo}"></script> <!-- * end -->
       
-      <!-- * 코코리뷰 [리뷰 수 표시] : 커스텀 코드 start --> <span class="coco-review-count" data-product-no="{$product_no}"></span> <!-- * end -->`;
+      <!-- * 코코리뷰 [리뷰 수 표시] : 커스텀 코드 start --> <span class="coco-review-count" data-product-no="{$product_no}"></span> <!-- * end -->
+
+`;
     }
 
     return {
-      script: `<script type="text/javascript" id="cocoReviewCount" data-service="coco" src="https://co-co.co.kr/dist/v3-review-count-js.js?serviceKey=${serviceKey}&shopNo=${shopNo}"></script>`,
-      custom: `<span class="coco-review-count" data-product-no="{$product_no}"></span>`,
+      detail: {
+        script: null,
+        custom: `
+    <div>
+        <iframe id="cocoListIframe" style="width:100%; height: 100%;" frameBorder="0"></iframe>
+        <script id="cocoList" type="text/javascript" src="https://co-co.co.kr/dist/v3-list-js.js?serviceKey=${serviceKey}&shopNo=${shopNo}"></script>
+    </div>
+`,
+      },
+      count: {
+        script: `<script type="text/javascript" id="cocoReviewCount" data-service="coco" src="https://co-co.co.kr/dist/v3-review-count-js.js?serviceKey=${serviceKey}&shopNo=${shopNo}"></script>`,
+        custom: `<span class="coco-review-count" data-product-no="{$product_no}"></span>`,
+      },
     };
   }
 
