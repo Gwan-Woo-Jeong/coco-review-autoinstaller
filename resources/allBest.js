@@ -3,6 +3,7 @@ import {
   addComments,
   createElementFromHTML,
   insertAfter,
+  trimHTML,
 } from "../utils/dom.js";
 
 const reviewName = "전체 + 베스트 리뷰";
@@ -21,7 +22,7 @@ export const allBest = async (buildDir, dom, installCode) => {
 
   addComments(reviewName, newElement, dom);
 
-  fs.writeFile(buildDir, dom.serialize(), (err) => {
+  fs.writeFile(buildDir, trimHTML(dom.serialize(), dom), (err) => {
     if (err) throw err;
   });
 };

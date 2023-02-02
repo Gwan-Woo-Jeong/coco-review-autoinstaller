@@ -3,7 +3,7 @@ import {
   addComments,
   createElementFromHTML,
   DOMtoString,
-  unwrapHTML,
+  trimHTML,
 } from "../utils/dom.js";
 
 const reviewName = "상품 목록 별점";
@@ -18,15 +18,16 @@ export const layout = async (buildDir, dom, installCode) => {
   if (body) {
     body.appendChild(script);
     addComments(reviewName, script, dom, false, true);
-    fs.writeFile(buildDir, unwrapHTML(dom.serialize()), (err) => {
+    fs.writeFile(buildDir, trimHTML(dom.serialize(), dom), (err) => {
       if (err) throw err;
     });
   } else {
     fs.writeFile(
       buildDir,
-      unwrapHTML(
+      trimHTML(
         dom.serialize() +
-          addComments(reviewName, DOMtoString(script), dom, false, true)
+          addComments(reviewName, DOMtoString(script), dom, false, true),
+        dom
       ),
       (err) => {
         if (err) throw err;

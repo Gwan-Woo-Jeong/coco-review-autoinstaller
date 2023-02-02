@@ -3,7 +3,7 @@ import {
   addComments,
   createElementFromHTML,
   insertAfter,
-  unwrapHTML,
+  trimHTML,
 } from "../utils/dom.js";
 
 const reviewName = "리뷰작성 폼";
@@ -22,7 +22,7 @@ export const form = (buildDir, dom, installCode) => {
 
   addComments(reviewName, newElement, dom);
 
-  fs.writeFile(buildDir, unwrapHTML(dom.serialize()), (err) => {
+  fs.writeFile(buildDir, trimHTML(dom.serialize(), dom), (err) => {
     if (err) throw err;
   });
 };

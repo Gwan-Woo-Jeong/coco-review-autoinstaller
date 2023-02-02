@@ -1,3 +1,7 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const beautify_html = require("js-beautify").html;
+
 const insertBefore = (referenceNode, newNode) => {
   referenceNode.parentNode.insertBefore(newNode, referenceNode);
 };
@@ -41,7 +45,8 @@ const addComments = (reviewName, target, dom, isCustom, isScript) => {
   }
 };
 
-const unwrapHTML = (htmlString) => {
+const trimHTML = (htmlString, dom) => {
+  // remove unnecessary HTML tags
   let html = false;
   let head = false;
   let body = false;
@@ -70,7 +75,11 @@ const unwrapHTML = (htmlString) => {
     htmlString = htmlString.replace("</body>", "");
   }
 
-  return htmlString;
+  // decode HTML entities
+  var txt = dom.window.document.createElement("textarea");
+  txt.innerHTML = htmlString;
+
+  return beautify_html(txt.value);
 };
 
 export {
@@ -78,7 +87,7 @@ export {
   insertAfter,
   createElementFromHTML,
   addComments,
-  unwrapHTML,
+  trimHTML,
   DOMtoString,
 };
 
@@ -87,6 +96,6 @@ export default {
   insertAfter,
   createElementFromHTML,
   addComments,
-  unwrapHTML,
+  trimHTML,
   DOMtoString,
 };

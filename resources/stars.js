@@ -3,7 +3,7 @@ import {
   addComments,
   createElementFromHTML,
   insertAfter,
-  unwrapHTML,
+  trimHTML,
 } from "../utils/dom.js";
 
 const reviewName = "상품 목록 별점";
@@ -25,7 +25,7 @@ export const stars = async (buildDir, dom, installCode) => {
     addComments(reviewName, starsCustomCode, dom, true);
   }
 
-  fs.writeFile(buildDir, unwrapHTML(dom.serialize()), (err) => {
+  fs.writeFile(buildDir, trimHTML(dom.serialize(), dom), (err) => {
     if (err) throw err;
   });
 };

@@ -3,7 +3,7 @@ import {
   addComments,
   createElementFromHTML,
   DOMtoString,
-  unwrapHTML,
+  trimHTML,
 } from "../utils/dom.js";
 
 const reviewName = "상품 상세 위젯";
@@ -73,13 +73,13 @@ export const detail = (buildDir, dom, installCode) => {
   if (body) {
     body.appendChild(countReviewScript);
     addComments(reviewName2, countReviewScript, dom, false, true);
-    fs.writeFile(buildDir, unwrapHTML(dom.serialize()), (err) => {
+    fs.writeFile(buildDir, trimHTML(dom.serialize(), dom), (err) => {
       if (err) throw err;
     });
   } else {
     fs.writeFile(
       buildDir,
-      unwrapHTML(
+      trimHTML(
         dom.serialize() +
           addComments(
             reviewName2,
@@ -87,7 +87,8 @@ export const detail = (buildDir, dom, installCode) => {
             dom,
             false,
             true
-          )
+          ),
+        dom
       ),
       (err) => {
         if (err) throw err;
